@@ -1,6 +1,8 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
+//#include "GameMap.h"
+
 class Player{
 private:
     double xPos, yPos;
@@ -14,5 +16,7 @@ public:
 
     void rotateViewAngle(double angle);
     void setViewAngle(double angle);
+    void moveForwards(double delta);
+    void moveSideways(double delta);
 };
 #endif

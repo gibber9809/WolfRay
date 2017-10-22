@@ -24,6 +24,14 @@ int main() {
                     player.rotateViewAngle(-0.1);
                 } else if (event.key.code == sf::Keyboard::Key::Right) {
                     player.rotateViewAngle(0.1);
+                } else if (event.key.code == sf::Keyboard::Key::W) {
+                    player.moveForwards(0.1);
+                } else if (event.key.code == sf::Keyboard::Key::S) {
+                    player.moveForwards(-0.1);
+                } else if (event.key.code == sf::Keyboard::Key::D) {
+                    player.moveSideways(0.1);
+                } else if (event.key.code == sf::Keyboard::Key::A) {
+                    player.moveSideways(-0.1);
                 }
             }
         }

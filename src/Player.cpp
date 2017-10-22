@@ -1,4 +1,8 @@
 #include "Player.h"
+#include "GameMap.h"
+#include <math.h>
+#include <utility>
+//#include <SFML/Graphics.hpp>
 
 Player::Player() {
     xPos = 0;
@@ -30,4 +34,24 @@ void Player::rotateViewAngle(double angle) {
 
 void Player::setViewAngle(double angle) {
     viewAngle = angle;  
+}
+
+void Player::moveForwards(double delta) {//, const GameMap & gameMap) {
+    double deltaX, deltaY;
+    deltaX = delta * cos(viewAngle);
+    deltaY = delta * sin(viewAngle);
+
+    /*if (gameMap.isWall(int(xPos + deltaX), int(yPos + deltaY))) {
+        pair<double,sf::Color> dist = gameMap.scanLine(xPos,yPos,deltaX,deltaY);
+        xPos = trunc(xPos + dist.first * cos(viewAngle));
+        yPos = trunc(yPos + dist.first * sin(viewAngle));
+    } else {*/
+        xPos += deltaX;
+        yPos += deltaY;
+    //}
+}
+
+void Player::moveSideways(double delta) {
+    xPos += delta * cos(viewAngle + PI/2);
+    yPos += delta * sin(viewAngle + PI/2);
 }
