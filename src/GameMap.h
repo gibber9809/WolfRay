@@ -5,6 +5,8 @@
 
 #include "Player.h"
 #include <vector>
+#include <utility>
+#include <SFML/Graphics.hpp>
 
 class GameMap{
     private:
@@ -24,7 +26,7 @@ class GameMap{
         int mapWidth = 12, mapHeight = 12;
     public:
         GameMap();
-        std::vector<int> scanColumns(Player player, double fov, int numColumns, int columnHeight);
-        int scanLine(double rayPosX, double rayPosY, double rayDirX, double rayDirY);
+        std::vector<std::pair<int,sf::Color> > scanColumns(Player player, double fov, int numColumns, int columnHeight);
+        std::pair<double,sf::Color> scanLine(double rayPosX, double rayPosY, double rayDirX, double rayDirY);
 };
 #endif

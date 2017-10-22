@@ -1,17 +1,18 @@
 #include "Player.h"
 #include "GameMap.h"
 #include <vector>
+#include <utility>
 #include <SFML/Graphics.hpp>
 
-#define WINDOW_HEIGHT 400
-#define WINDOW_WIDTH 600
+#define WINDOW_HEIGHT 800
+#define WINDOW_WIDTH 1200
 
 int main() {
     const double FOV = PI/3;
     sf::RenderWindow window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Game Window");
     GameMap gameMap;
-    std::vector<int> columnHeights;
-    Player player;
+    std::vector<std::pair<int,sf::Color> > columnHeights;
+    Player player(8.5,8.5,0);
 
     while (window.isOpen()) {
         sf::Event event;
@@ -31,17 +32,15 @@ int main() {
         columnHeights = gameMap.scanColumns(player, FOV, WINDOW_WIDTH, WINDOW_HEIGHT);
 
         for (int i = 0; i < WINDOW_WIDTH; ++i) {
-            if (columnHeights[i] > 0) {
+            if (columnHeights[i].first > 0) {
                 sf::VertexArray column(sf::Lines, 2);
-                column[0].position = sf::Vector2f(i,WINDOW_HEIGHT/2 - columnHeights[i] / 2);
-                column[1].position = sf::Vector2f(i,WINDOW_HEIGHT/2 + columnHeights[i] / 2);
-                column[0].color = sf::Color::Green;
-                column[1].color = sf::Color::Green;
+                column[0].position = sf::Vector2f(i,WINDOW_HEIGHT/2 - columnHeights[i].first / 2);
+                column[1].position = sf::Vector2f(i,WINDOW_HEIGHT/2 + columnHeights[i].first / 2);
+                column[0].color = columnHeights[i].second;
+                column[1].color = columnHeights[i].second;
                 window.draw(column);
             }
         }
-
-        std::cout << std::endl << std::endl;
 
         window.display();
     }
