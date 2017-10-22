@@ -6,10 +6,10 @@ Player::Player() {
     viewAngle = 0;
 }
 
-Player::Player(double xPos, double yPos, double viewAngle) {
-    xPos = xPos;
-    yPos = yPos;
-    viewAngle = viewAngle;
+Player::Player(double xPos_, double yPos_, double viewAngle_) {
+    xPos = xPos_;
+    yPos = yPos_;
+    viewAngle = viewAngle_;
 }
 
 double Player::getViewAngle() const {

@@ -7,7 +7,7 @@ private:
     double viewAngle;
 public:
     Player();
-    Player(double xPos, double yPos, double viewAngle);
+    Player(double xPos_, double yPos_, double viewAngle_);
     double getXPos() const;
     double getYPos() const;
     double getViewAngle() const;
