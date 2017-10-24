@@ -28,5 +28,6 @@ class GameMap{
         GameMap();
         std::vector<std::pair<int,sf::Color> > scanColumns(Player player, double fov, int numColumns, int columnHeight);
         std::pair<double,sf::Color> scanLine(double rayPosX, double rayPosY, double rayDirX, double rayDirY);
+        bool isWall(int xPos, int yPos) const;
 };
 #endif

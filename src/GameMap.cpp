@@ -22,7 +22,8 @@ vector<pair<int,sf::Color> > GameMap::scanColumns(Player player, double fov, int
         pair<double,sf::Color> distAndColor = scanLine(player.getXPos(), player.getYPos(), rayDirX, rayDirY);
         int lineHeight = 0;
         if (distAndColor.first >= 0)
-            lineHeight = int(columnHeight/(distAndColor.first + 1.0));
+            // use perpendicular distance to avoid fisheye effect
+            lineHeight = int(columnHeight/(distAndColor.first * cos(viewAngleOffset)));
         lineHeights.push_back(pair<int,sf::Color>(lineHeight,distAndColor.second));
     }
 
@@ -32,7 +33,6 @@ vector<pair<int,sf::Color> > GameMap::scanColumns(Player player, double fov, int
 pair<double,sf::Color> GameMap::scanLine(double rayPosX, double rayPosY, double rayDirX, double rayDirY) {
     int mapX, mapY, stepX, stepY;
     double intersectDistX, intersectDistY, hypDeltaX, hypDeltaY;
-    bool wallHit = false;
     mapX = int(rayPosX);
     mapY = int(rayPosY);
     hypDeltaX = sqrt(1.0 + (rayDirY * rayDirY) / (rayDirX * rayDirX));
@@ -53,11 +53,10 @@ pair<double,sf::Color> GameMap::scanLine(double rayPosX, double rayPosY, double 
         intersectDistY = (mapY + 1.0 - rayPosY) * hypDeltaY;
     }
 
-    while (!wallHit && mapX >= 0 && mapY >= 0 && mapX < mapWidth && mapY < mapHeight) {
+    while (mapX >= 0 && mapY >= 0 && mapX < mapWidth && mapY < mapHeight) {
         if (intersectDistX < intersectDistY) {
             mapX += stepX;
             if (map[mapY][mapX] > 0) {
-                wallHit = true;
                 return pair<double,sf::Color>(intersectDistX,sf::Color(0,255,0));
             } else {
                 intersectDistX += hypDeltaX;
@@ -65,7 +64,6 @@ pair<double,sf::Color> GameMap::scanLine(double rayPosX, double rayPosY, double 
         } else {
             mapY += stepY;
             if (map[mapY][mapX] > 0) {
-                wallHit = true;
                 return pair<double,sf::Color>(intersectDistY,sf::Color(0,127,0));
             } else {
                 intersectDistY += hypDeltaY;
@@ -73,4 +71,11 @@ pair<double,sf::Color> GameMap::scanLine(double rayPosX, double rayPosY, double 
         }
     }
     return pair<double,sf::Color>(-1,sf::Color(0,0,0));
+}
+
+bool GameMap::isWall(int xPos, int yPos) const {
+    if (xPos < 0 || xPos >= mapWidth || yPos < 0 || yPos >= mapHeight || map[yPos][xPos] > 0) {
+        return true;
+    }
+    return false;
 }
