@@ -56,14 +56,14 @@ pair<double,sf::Color> GameMap::scanLine(double rayPosX, double rayPosY, double 
     while (mapX >= 0 && mapY >= 0 && mapX < mapWidth && mapY < mapHeight) {
         if (intersectDistX < intersectDistY) {
             mapX += stepX;
-            if (map[mapY][mapX] > 0) {
+            if (mapX >= 0 && mapX < mapWidth && map[mapY][mapX] > 0) {
                 return pair<double,sf::Color>(intersectDistX,sf::Color(0,255,0));
             } else {
                 intersectDistX += hypDeltaX;
             }
         } else {
             mapY += stepY;
-            if (map[mapY][mapX] > 0) {
+            if (mapY >= 0 && mapY < mapHeight && map[mapY][mapX] > 0) {
                 return pair<double,sf::Color>(intersectDistY,sf::Color(0,127,0));
             } else {
                 intersectDistY += hypDeltaY;
